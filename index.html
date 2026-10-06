@@ -79,6 +79,9 @@ button{font:inherit;cursor:pointer;-webkit-tap-highlight-color:transparent;touch
 
 
 
+/* photos keep their own shape */
+.frame .ph.has{aspect-ratio:auto;background:none;display:block}
+.frame .ph.has img{width:100%;height:auto;max-height:78vh;object-fit:contain;display:block}
 /* quote + photo timeline */
 .mem .q{margin:0 0 16px;position:relative;padding-left:46px;font-family:var(--hand);font-size:clamp(24px,4.8vw,30px);line-height:1.3}
 .mem .q::before{content:"\201C";position:absolute;left:0;top:-4px;font:800 62px/1 var(--head);color:var(--gold)}
@@ -232,7 +235,7 @@ $('lanterns').innerHTML = '<span class="lantern"></span>'.repeat(9);
 $('mems').innerHTML = CONFIG.story.map(m => `
   <article class="mem">
     <blockquote class="q">${esc(m.quote)}</blockquote>
-    <div class="frame"><div class="ph">${m.photo ? `<img src="${esc(m.photo)}" alt="${esc(m.caption)}">` : 'Your photo goes here'}</div></div>
+    <div class="frame"><div class="ph${m.photo ? ' has' : ''}">${m.photo ? `<img loading="lazy" decoding="async" src="${esc(m.photo)}" alt="${esc(m.caption)}">` : 'Your photo goes here'}</div></div>
     <p class="cap">${esc(m.caption)}</p>
   </article>`).join('');
 
@@ -240,6 +243,7 @@ $('letter').innerHTML = CONFIG.letter.map(p => `<p>${esc(p)}</p>`).join('') + `<
 $('gTitle').textContent = CONFIG.giftTitle;
 $('gText').textContent = CONFIG.giftText;
 $('gPh').innerHTML = CONFIG.giftPhoto ? `<img src="${esc(CONFIG.giftPhoto)}" alt="Your gift">` : 'Your gift photo goes here';
+if (CONFIG.giftPhoto) $('gPh').classList.add('has');
 $('foot').textContent = CONFIG.footer;
 
 /* confetti */
